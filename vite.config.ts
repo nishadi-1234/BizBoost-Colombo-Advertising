@@ -13,19 +13,21 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || ''),
-      'process.env.NODE_ENV': JSON.stringify(mode),
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(__dirname, 'src'),
       },
     },
-    base: '/',
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
-      // Force consistent build
       emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
+      },
     },
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
